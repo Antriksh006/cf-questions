@@ -1,14 +1,20 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
 import axios from "axios";
 
+interface CodeforcesData {
+  count: number;
+  problems: string[];
+  incorrectSubmissions: number;
+  incorrectProblems: string[];
+}
+
 export default function Page() {
   const [handle, setHandle] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<CodeforcesData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -17,13 +23,13 @@ export default function Page() {
       setLoading(true);
       setError("");
       setData(null);
-      const response = await axios.post("/api/get-info", {
+      const response = await axios.post("/api/codeforces", {
         handle,
         startDate,
         endDate,
       });
       setData(response.data);
-    } catch (err) {
+    } catch {
       setError("Failed to fetch data. Please try again.");
     } finally {
       setLoading(false);
@@ -73,13 +79,13 @@ export default function Page() {
           <h2 className="text-lg font-bold">Results</h2>
           <p><strong>Total Problems Solved:</strong> {data.count}</p>
           <ul className="list-disc pl-6">
-            {data.problems.map((problem: string, index: number) => (
+            {data.problems.map((problem, index) => (
               <li key={index}>{problem}</li>
             ))}
           </ul>
           <p className="mt-4"><strong>Incorrect Submissions:</strong> {data.incorrectSubmissions}</p>
           <ul className="list-disc pl-6">
-            {data.incorrectProblems.map((problem: string, index: number) => (
+            {data.incorrectProblems.map((problem, index) => (
               <li key={index}>{problem}</li>
             ))}
           </ul>
