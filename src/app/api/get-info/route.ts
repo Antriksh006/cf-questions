@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request){
     const body = await req.json();
-    let {startDate,endDate,handle} = body;
+    let {startDate,endDate} = body;
+    const handle = body.handle;
     if(!endDate){
         endDate = new Date().toISOString();
     }
