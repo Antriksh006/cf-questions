@@ -23,7 +23,7 @@ export default function Page() {
       setLoading(true);
       setError("");
       setData(null);
-      const response = await axios.post("/api/codeforces", {
+      const response = await axios.post("/api/get-info", {
         handle,
         startDate,
         endDate,
